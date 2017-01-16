@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Register</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="{% url 'register' %}">{% csrf_token %}
+                        <p class="bs-component">
+                            <table>
+                                {% for field in form %}
+                                <tr>
+                                    <td>{{ field.label_tag }}</td>
+                                    <td>{{ field }}</td>
+                                    <td class="text-info">{{ field.help_text }}</td>
+                                </tr>
+                                    {% if field.errors %}
+                                <tr>
+                                    <td colspan="3">
+                                        {% for error in field.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                    {% endif %}                           
+                                {% endfor %}
+                            </table>
+                        </p>
+                        <p class="bs-component">
+                            <input class="btn btn-success btn-sm" type="submit" value="register" />
+                        </p>
+                    </form>
+                    <p class="bs-component">
+                        <a href="{% url 'login' %}" class="btn btn-link">Back to login page</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+{% if not user.is_authenticated %}
+$("ul.nav.navbar-nav.navbar-right").css("display","none");
+{% endif %}
+</script>
+{% endblock %}
